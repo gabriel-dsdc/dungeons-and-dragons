@@ -48,7 +48,11 @@ class Character implements Fighter {
   }
 
   attack(enemy: SimpleFighter): void {
-    enemy.receiveDamage(this.strength);
+    if (getRandomInt(1, 4) >= 3) {
+      this.special(enemy);
+    } else {
+      enemy.receiveDamage(this.strength);
+    }
   }
 
   levelUp(): void {

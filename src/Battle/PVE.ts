@@ -1,25 +1,19 @@
 import Fighter, { SimpleFighter } from '../Fighter';
+import { pveFight } from '../utils';
 import Battle from './Battle';
 
 class PVE extends Battle {
   constructor(
     protected player: Fighter,
-    protected monstersList: SimpleFighter[] | Fighter[],
+    protected monstersList: SimpleFighter[],
   ) {
     super(player);
   }
 
   fight(): number {
     const remainingMonsters = [...this.monstersList];
-  
-    while (remainingMonsters[0]) {
-      this.player.attack(remainingMonsters[0]);
-      if (remainingMonsters[0].lifePoints <= -1) {
-        remainingMonsters.splice(0, 1);
-      }
-      if (remainingMonsters[0]) {
-        remainingMonsters[0].attack(this.player);
-      }
+    while (this.player.lifePoints > 0 && remainingMonsters[0]) {
+      pveFight(this.player, remainingMonsters);
     }
     return super.fight();
   }

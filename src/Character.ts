@@ -47,11 +47,13 @@ class Character implements Fighter {
     return this.lifePoints;
   }
 
-  attack(enemy: SimpleFighter): void {
-    if (getRandomInt(1, 4) >= 3) {
-      this.special(enemy);
-    } else {
-      enemy.receiveDamage(this.strength);
+  attack(enemy: SimpleFighter | Fighter): void {
+    if (this.lifePoints > 0) {
+      if (getRandomInt(1, 4) >= 3) {
+        this.special(enemy);
+      } else {
+        enemy.receiveDamage(this.strength);
+      }
     }
   }
 
@@ -69,8 +71,8 @@ class Character implements Fighter {
     this._lifePoints = this._maxLifePoints;
   }
 
-  special(enemy: SimpleFighter): void {
-    const lifeStealDamage = getRandomInt(1, 10);
+  special(enemy: SimpleFighter | Fighter): void {
+    const lifeStealDamage = this.strength;
     enemy.receiveDamage(lifeStealDamage);
     this._lifePoints += lifeStealDamage / 2;
 
